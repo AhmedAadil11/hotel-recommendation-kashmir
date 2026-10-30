@@ -7,7 +7,7 @@ app = Flask(__name__)
 # Load the trained model and encoder
 with open('decision_tree.pkl', 'rb') as f:
     model = pkl.load(f)
-with open('ohe.pkl', 'rb') as f:
+with open('Ohe.pkl', 'rb') as f:
     ohe = pkl.load(f)
 
 """
