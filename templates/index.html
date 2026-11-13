@@ -3,293 +3,731 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Wadi Stay – Kashmir Hotel Recommender</title>
+<meta name="description" content="Kashmir Stays — personalised hotel recommendations across Kashmir. Created by Furqan Mushtaq.">
+<title>Kashmir Stays | Hotel Recommendation System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&family=Marck+Script&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--night:#0e2a3a;--lake:#1c6b86;--lake-l:#4fb0c6;--snow:#f4f8fa;--saffron:#e8a33d;--chinar:#c4452d;--pine:#2f6b4f;--ink:#16303d;--card:rgba(255,255,255,.92)}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Poppins',sans-serif;color:var(--ink);background:var(--snow);min-height:100vh}
-.hero{position:relative;height:430px;overflow:hidden;color:#fff;background:linear-gradient(180deg,#1b4f6b 0%,#4fa3bd 45%,#f6d9a8 82%,#f3c987 100%)}
-.hero .sun{position:absolute;right:14%;top:150px;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle,#fff3cf 0%,#ffd78a 55%,rgba(255,215,138,0) 72%)}
-.hero svg.mount{position:absolute;bottom:0;left:0;width:100%;height:auto}
-.hero-content{position:relative;z-index:3;max-width:1100px;margin:0 auto;padding:46px 24px 0}
-.brand{display:flex;align-items:center;gap:10px;font-weight:500;letter-spacing:.5px;opacity:.95}
-.brand svg{width:28px;height:28px}
-h1{font-family:'Playfair Display',serif;font-size:clamp(34px,6vw,60px);line-height:1.1;margin-top:34px;text-shadow:0 3px 18px rgba(0,0,0,.25)}
-h1 span{color:#ffe0a1}
-.tag{margin-top:14px;max-width:520px;font-weight:300;font-size:17px;text-shadow:0 2px 10px rgba(0,0,0,.3)}
-.shikara{position:absolute;z-index:4;bottom:12px;left:-220px;width:190px;animation:sail 38s linear infinite}
-@keyframes sail{to{left:110%}}
-main{max-width:1100px;margin:-70px auto 60px;padding:0 20px;position:relative;z-index:5;display:grid;grid-template-columns:1.55fr 1fr;gap:26px}
-@media(max-width:900px){main{grid-template-columns:1fr}}
-.card{background:var(--card);backdrop-filter:blur(8px);border-radius:22px;padding:30px;box-shadow:0 18px 50px rgba(14,42,58,.18);border:1px solid rgba(255,255,255,.7)}
-.card h2{font-family:'Playfair Display',serif;font-size:24px;margin-bottom:4px;color:var(--night)}
-.card .sub{font-size:13.5px;color:#5b7480;margin-bottom:22px}
-fieldset{border:none;margin-bottom:18px}
-legend{font-size:12px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;color:var(--lake);margin-bottom:10px;display:flex;align-items:center;gap:8px;width:100%}
-legend::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,#b9d3dc,transparent)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:560px){.grid{grid-template-columns:1fr}}
-.field{display:flex;flex-direction:column;gap:5px}
+:root{--deep:#071d26;--lake:#0f4c5c;--lake2:#1b6b7d;--snow:#f4f8f9;--mist:#e1ebee;--ink:#10242c;--muted:#5a7079;--saffron:#f0a81c;--crocus:#7a4bb0;--crocus2:#53298a;--chinar:#c2411f;--line:#d5e0e5;--surface:#fff;--ok:#17744a;--err:#c2411f;--serif:"Fraunces",Georgia,serif;--sans:Manrope,"Segoe UI",system-ui,sans-serif}
+@media(prefers-color-scheme:dark){:root{--snow:#071a21;--mist:#0c242d;--ink:#e8f0f3;--muted:#9db3bc;--line:#1e404c;--surface:#0e2a33;--ok:#5eea9a;--err:#ff9477}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--sans);background:var(--snow);color:var(--ink);line-height:1.6}
+.wrap{max-width:1100px;margin:auto;padding:0 20px}
+
+/* HERO */
+.hero{position:relative;min-height:660px;color:#fff;display:flex;align-items:flex-end;overflow:hidden;background:radial-gradient(120% 90% at 70% 0%,#2f7a8c,#12495a 45%,#071d26)}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center 55%;opacity:0;transition:opacity 1.6s;transform:scale(1.06);animation:drift 28s ease-in-out infinite alternate}
+.hero-bg.on{opacity:.9}
+@keyframes drift{to{transform:scale(1.14) translateX(-1.5%)}}
+.hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(7,29,38,.7),rgba(7,29,38,.2) 40%,rgba(7,29,38,.93))}
+#snow{position:absolute;inset:0;z-index:2;width:100%;height:100%;pointer-events:none}
+.hero .wrap{position:relative;z-index:4;padding:40px 20px 190px;width:100%}
+.topbar{position:absolute;top:22px;left:20px;right:20px;max-width:1060px;margin:auto;display:flex;justify-content:space-between;align-items:center;z-index:5}
+.brand{font-family:var(--serif);font-weight:700;font-size:1.2rem;display:flex;align-items:center;gap:10px}
+.brand svg{width:26px;height:26px;color:var(--saffron)}
+.by{font-size:.82rem;padding:7px 14px;border-radius:99px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(8px)}
+.by b{color:var(--saffron)}
+.greet{font-family:"Marck Script","Fraunces",cursive;font-size:2rem;color:var(--saffron);margin:60px 0 8px}
+.hero h1{font-family:var(--serif);font-weight:700;margin:0 0 16px;font-size:clamp(2.7rem,7.5vw,5.6rem);line-height:.98;max-width:820px;letter-spacing:-.025em;text-wrap:balance}
+.hero h1 em{font-style:italic;color:var(--saffron);font-weight:500}
+.sub{margin:0;max-width:560px;font-size:1.1rem;color:#d9e8ed}
+.stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.stats div{padding:10px 18px;border-radius:16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(10px)}
+.stats b{display:block;font-family:var(--serif);font-size:1.4rem;color:var(--saffron);line-height:1.1}
+.stats span{font-size:.78rem;color:#cfe2e8}
+.cta{display:inline-block;margin-top:28px;background:var(--saffron);color:#2a1d00;font-weight:800;padding:15px 30px;border-radius:99px;text-decoration:none;box-shadow:0 10px 30px rgba(240,168,28,.45);transition:transform .15s}
+.cta:hover{transform:translateY(-2px)}
+.ridge{position:absolute;left:0;right:0;bottom:-1px;z-index:3;width:100%;height:150px;display:block}
+
+.buta{display:flex;align-items:center;gap:14px;color:var(--saffron);margin:0 0 14px}
+.buta::before,.buta::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent)}
+.buta svg{width:26px;height:26px;flex:none}
+
+/* RESULT */
+main{position:relative;z-index:5;padding-bottom:30px}
+.results .result:first-child{margin-top:-100px}
+.result{margin:0 0 18px;display:flex;gap:24px;align-items:center;background:var(--surface);border-radius:6px 34px 6px 34px;padding:30px 34px;border:2px solid var(--saffron);box-shadow:0 26px 60px rgba(7,29,38,.28);position:relative;overflow:hidden}
+.result::after{content:"";position:absolute;right:-50px;top:-50px;width:200px;height:200px;border-radius:50%;background:radial-gradient(var(--saffron),transparent 70%);opacity:.28}
+.result.error{border-color:var(--chinar)}
+.hide{display:none!important}
+.seal{flex:none;width:76px;height:76px;border-radius:50%;display:grid;place-items:center;font-size:2.2rem;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--crocus),var(--crocus2));box-shadow:0 0 0 7px rgba(122,75,176,.2);animation:pop .7s cubic-bezier(.2,1.6,.4,1)}
+.error .seal{background:var(--chinar);box-shadow:0 0 0 7px rgba(194,65,31,.2)}
+@keyframes pop{from{transform:scale(.4);opacity:0}}
+.result h2{margin:0;font-size:.82rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.pred{font-family:var(--serif);font-size:clamp(1.9rem,4.5vw,3rem);font-weight:700;line-height:1.15;color:var(--ok);overflow-wrap:anywhere}
+.error .pred{color:var(--err);font-size:1.25rem;font-family:var(--sans);font-weight:700}
+.small{margin:2px 0 0;color:var(--muted);font-size:.88rem}
+
+/* INTRO */
+.intro{padding:54px 0 10px}
+h2.title{font-family:var(--serif);font-size:clamp(1.9rem,4.2vw,2.8rem);margin:0 0 8px;text-align:center;letter-spacing:-.01em;text-wrap:balance}
+p.lead{max-width:620px;margin:0 auto 28px;text-align:center;color:var(--muted)}
+.gallery{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:210px 210px;gap:12px}
+.tile{margin:0;position:relative;min-width:0;border-radius:6px 28px 6px 28px;overflow:hidden;background:linear-gradient(135deg,var(--lake2),var(--crocus));min-height:140px;box-shadow:0 10px 26px rgba(7,29,38,.15)}
+.tile:first-child{grid-row:span 2}
+.tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1s,transform 6s}
+.tile img.on{opacity:1}
+.tile:hover img{transform:scale(1.07)}
+.tile figcaption{line-height:1.15;position:absolute;left:0;right:0;bottom:0;padding:30px 16px 12px;color:#fff;font-family:var(--serif);font-size:1.25rem;font-weight:600;background:linear-gradient(transparent,rgba(7,29,38,.9))}
+
+/* QUICK START CARDS */
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:30px 0 6px}
+.qcard{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:6px 22px 6px 22px;padding:18px 20px;color:var(--ink);position:relative;overflow:hidden;box-shadow:0 8px 22px rgba(7,29,38,.07)}
+.qcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(var(--saffron),var(--crocus))}
+.qcard:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(122,75,176,.22)}
+.qcard b{display:block;font-family:var(--serif);font-size:1.3rem;line-height:1.2}
+.qcard span{font-size:.86rem;color:var(--muted);font-weight:500}
+.qcard em{display:inline-block;margin-top:8px;font-style:normal;font-size:.8rem;color:var(--crocus);font-weight:800}
+.ghost{display:block;margin:12px auto 0;background:transparent;color:var(--muted);padding:8px 16px;border-radius:99px;border:1px solid var(--line)}
+
+button{font:inherit;cursor:pointer;border:0;font-weight:700;transition:transform .12s,box-shadow .12s,filter .12s}
+button:active{transform:translateY(1px)}
+:focus-visible{outline:3px solid var(--saffron);outline-offset:2px}
+
+/* FORM */
+.formhead{padding-top:44px}
+fieldset{margin:0 0 24px;padding:0;background:var(--surface);border-radius:6px 30px 6px 30px;border:1px solid var(--line);overflow:hidden;box-shadow:0 12px 34px rgba(7,29,38,.08);min-width:0}
+.fhead{display:flex;align-items:center;gap:14px;padding:18px 26px;color:#fff;position:relative;
+  background:radial-gradient(circle at 20% 50%,rgba(240,168,28,.18) 0 2px,transparent 3px) 0 0/26px 26px,linear-gradient(100deg,var(--deep),var(--lake) 70%,var(--crocus2))}
+.fhead .n{flex:none;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-family:var(--serif);font-size:1.3rem;font-weight:700;background:var(--saffron);color:#2a1d00}
+.fhead h3{font-family:var(--serif);font-size:1.5rem;margin:0;line-height:1.1}
+.fhead p{margin:0;font-size:.85rem;color:#bcd2da}
+.fhead svg{margin-left:auto;width:34px;height:34px;color:var(--saffron);opacity:.9}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px 20px;padding:26px}
+.field{min-width:0}
 .field.full{grid-column:1/-1}
-label{font-size:13px;font-weight:500;color:#34515f}
-input,select{font:inherit;font-size:14.5px;padding:11px 13px;border-radius:11px;border:1.5px solid #cfe0e7;background:#fff;color:var(--ink);transition:.2s;width:100%}
-input:focus,select:focus{outline:none;border-color:var(--lake-l);box-shadow:0 0 0 4px rgba(79,176,198,.2)}
-.switch{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 13px;border:1.5px solid #cfe0e7;border-radius:11px;background:#fff}
-.switch span{font-size:14px}
-.switch input{display:none}
-.switch .track{width:46px;height:26px;border-radius:20px;background:#c5d5dc;position:relative;cursor:pointer;transition:.25s;flex:none}
-.switch .track::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.25s;box-shadow:0 1px 4px rgba(0,0,0,.3)}
-.switch input:checked + .track{background:var(--pine)}
-.switch input:checked + .track::after{left:23px}
-button.go{width:100%;margin-top:8px;padding:15px;border:none;border-radius:14px;cursor:pointer;font:600 16px 'Poppins',sans-serif;color:#fff;letter-spacing:.4px;background:linear-gradient(135deg,var(--chinar),#e0793a);box-shadow:0 10px 24px rgba(196,69,45,.35);transition:.2s}
-button.go:hover{transform:translateY(-2px);box-shadow:0 14px 28px rgba(196,69,45,.42)}
-button.go:disabled{opacity:.6;cursor:wait;transform:none}
-.side{display:flex;flex-direction:column;gap:22px}
-.result{min-height:300px}
-.placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;height:250px;color:#6b8793;gap:10px}
-.placeholder svg{width:70px;opacity:.55}
-.verdict{display:none}
-.badge{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:40px;font-weight:600;font-size:15px;margin-bottom:18px;background:#e1f3ea;color:var(--pine)}
-.row{display:flex;justify-content:space-between;align-items:baseline;padding:11px 0;border-bottom:1px dashed #d5e3e9}
-.row small{color:#5b7480;font-size:13px}
-.row b{font-size:17px;color:var(--night);text-align:right}
-.row.big b{font-size:24px;font-family:'Playfair Display',serif}
-.tip{background:linear-gradient(135deg,#0e2a3a,#1c6b86);color:#e7f4f8;border-radius:22px;padding:24px;position:relative;overflow:hidden}
-.tip h3{font-family:'Playfair Display',serif;font-size:19px;margin-bottom:8px;color:#ffe0a1}
-.tip p{font-size:13.5px;line-height:1.6;font-weight:300}
-.tip svg{position:absolute;right:-16px;bottom:-16px;width:110px;opacity:.16}
-.err{display:none;margin-top:12px;color:var(--chinar);font-size:13.5px}
-footer{text-align:center;padding:0 20px 40px;color:#6b8793;font-size:13px}
-footer svg{width:100%;max-width:420px;height:26px;display:block;margin:0 auto 10px}
+.field.two{grid-column:span 2}
+.lab{display:flex;justify-content:space-between;align-items:center;font-size:.85rem;font-weight:800;margin:0 0 8px;color:var(--muted)}
+.lab i{font-style:normal;font-size:.7rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:99px;background:rgba(240,168,28,.2);color:#9a6a00}
+@media(prefers-color-scheme:dark){.lab i{color:var(--saffron)}}
+input[type=number],select{width:100%;font:inherit;font-weight:600;color:var(--ink);background:var(--snow);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+input[type=number]:hover,select:hover{border-color:var(--crocus)}
+input[readonly]{opacity:.75;border-style:dashed}
+.ctrl{position:relative}
+.ctrl u{position:absolute;top:50%;transform:translateY(-50%);text-decoration:none;color:var(--muted);font-size:.9rem;pointer-events:none}
+.ctrl.pre u{left:14px}.ctrl.pre input{padding-left:32px}
+.ctrl.suf u{right:14px}.ctrl.suf input{padding-right:48px}
+.hint{margin:6px 0 0;font-size:.78rem;color:var(--muted)}
+.flash{animation:fl .9s}
+@keyframes fl{0%{background:rgba(240,168,28,.4)}100%{background:var(--snow)}}
+
+/* STEPPER */
+.cnt{display:flex;align-items:stretch;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--snow)}
+.cnt button{width:52px;font-size:1.5rem;background:transparent;color:var(--crocus);font-weight:700}
+.cnt button:hover{background:rgba(122,75,176,.14)}
+.cnt input{border:0!important;border-radius:0;text-align:center;font-size:1.2rem;font-weight:800;background:transparent;padding:12px 0;-moz-appearance:textfield}
+.cnt input::-webkit-outer-spin-button,.cnt input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+
+/* RADIO CHIPS */
+.opts{display:flex;flex-wrap:wrap;gap:10px}
+.opt{position:relative}
+.opt input{position:absolute;opacity:0;inset:0;cursor:pointer;margin:0}
+.opt span{display:block;padding:10px 16px;border-radius:14px;border:1px solid var(--line);background:var(--snow);font-weight:700;font-size:.92rem;line-height:1.25;transition:all .15s}
+.opt span small{display:block;font-weight:500;font-size:.74rem;color:var(--muted)}
+.opt:hover span{border-color:var(--crocus);transform:translateY(-1px)}
+.opt input:checked+span{background:linear-gradient(135deg,var(--crocus),var(--crocus2));border-color:transparent;color:#fff;box-shadow:0 8px 18px rgba(122,75,176,.38)}
+.opt input:checked+span small{color:#e2d4f3}
+.opt input:focus-visible+span{outline:3px solid var(--saffron);outline-offset:2px}
+
+/* BUDGET SLIDER */
+input[type=range]{width:100%;height:8px;margin:18px 0 6px;accent-color:var(--crocus);cursor:pointer}
+.qb{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.qb button{background:var(--snow);color:var(--ink);border:1px solid var(--line);padding:6px 14px;border-radius:99px;font-size:.85rem}
+.qb button:hover{border-color:var(--saffron);background:rgba(240,168,28,.15)}
+
+/* BAR */
+.bar{position:sticky;bottom:12px;z-index:6;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;background:color-mix(in srgb,var(--surface) 90%,transparent);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:22px;padding:12px 14px 12px 22px;box-shadow:0 14px 34px rgba(7,29,38,.25)}
+.sum{font-size:.92rem;font-weight:700}
+.sum small{display:block;font-weight:500;color:var(--muted);font-size:.78rem}
+.go{background:linear-gradient(135deg,var(--crocus),var(--crocus2));color:#fff;padding:16px 36px;border-radius:99px;font-size:1.08rem;box-shadow:0 10px 24px rgba(122,75,176,.45)}
+.go:hover{filter:brightness(1.12)}
+.go[disabled]{opacity:.7;cursor:wait}
+.note{margin:18px 0 0;color:var(--muted);font-size:.85rem;text-align:center}
+
+/* LOADER */
+#loader{position:fixed;inset:0;z-index:50;background:rgba(7,29,38,.88);backdrop-filter:blur(6px);display:grid;place-items:center;text-align:center;color:#fff}
+#loader p{font-family:var(--serif);font-size:1.5rem;margin:16px 0 0}
+.spin{width:64px;height:64px;margin:auto;border-radius:50%;border:5px solid rgba(255,255,255,.2);border-top-color:var(--saffron);animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* FOOTER */
+footer{position:relative;background:var(--deep);color:#b9ced6;text-align:center;padding:48px 20px 40px;font-size:.9rem;overflow:hidden}
+footer::before{content:"";position:absolute;left:50%;top:-120px;width:520px;height:240px;transform:translateX(-50%);background:radial-gradient(var(--saffron),transparent 70%);opacity:.18}
+footer b.t{position:relative;font-family:var(--serif);font-size:1.5rem;color:#fff;font-weight:600;display:block;margin-bottom:6px}
+.sign{position:relative;display:inline-flex;align-items:center;gap:10px;margin-top:16px;padding:10px 22px;border-radius:99px;border:1px solid rgba(240,168,28,.5);background:rgba(240,168,28,.08);color:#fff}
+.sign svg{width:18px;height:18px;color:var(--saffron)}
+.sign strong{font-family:var(--serif);font-size:1.15rem;color:var(--saffron)}
+#credits{display:block;margin-top:16px;font-size:.76rem;opacity:.75}
+#credits a{color:var(--saffron)}
+#toast{position:fixed;left:50%;bottom:100px;transform:translate(-50%,16px);background:var(--deep);color:#fff;padding:10px 20px;border-radius:99px;font-size:.88rem;opacity:0;pointer-events:none;transition:.25s;z-index:20;border:1px solid var(--saffron)}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media(max-width:900px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .field.two{grid-column:1/-1}
+  .quick{grid-template-columns:1fr}
+  .gallery{grid-template-columns:1fr 1fr;grid-template-rows:200px 150px 150px}
+  .tile:first-child{grid-row:auto;grid-column:span 2}
+}
+@media(max-width:600px){
+  .gallery{grid-template-rows:190px 130px 130px;gap:10px}
+  .tile{min-height:0}
+  .tile figcaption{font-size:1rem;padding:22px 10px 8px}
+  .hero{min-height:600px}.hero .wrap{padding-bottom:140px}
+  .by{display:none}
+  .grid{grid-template-columns:1fr;padding:18px}
+  .result{flex-direction:column;align-items:flex-start;padding:22px}
+  input,select{font-size:16px}
+  .fhead{padding:14px 18px}.fhead svg{display:none}
+  .go{width:100%}.bar{padding:12px}.sum{width:100%;text-align:center}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}#snow{display:none}}
+
+.hero::after,footer::after{content:"";position:absolute;inset:0;z-index:2;opacity:.08;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M30 4l6 14 14-6-6 14 14 6-14 6 6 14-14-6-6 14-6-14-14 6 6-14-14-6 14-6-6-14 14 6z' fill='none' stroke='white' stroke-width='1'/%3E%3C/svg%3E")}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .8s,transform .8s}
+.rv.in{opacity:1;transform:none}
+.prog{display:flex;gap:8px;margin:0 0 20px;justify-content:center;flex-wrap:wrap}
+.prog button{display:flex;align-items:center;gap:8px;padding:7px 16px 7px 7px;border-radius:99px;background:var(--surface);border:1px solid var(--line);color:var(--muted);font-size:.86rem}
+.prog b{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--mist);color:var(--ink)}
+.prog .on{border-color:var(--crocus);color:var(--ink);box-shadow:0 6px 16px rgba(0,0,0,.12)}
+.prog .on b,.prog .done b{background:var(--saffron);color:#2a1d00}
+.nav{display:flex;gap:10px}
+.back{background:transparent;color:var(--muted);padding:14px 22px;border:1px solid var(--line);border-radius:99px}
+.dgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.dc{padding:0;border-radius:6px 16px 6px 16px;overflow:hidden;border:2px solid transparent;background:var(--snow);color:var(--ink);box-shadow:0 4px 12px rgba(0,0,0,.1);text-align:left}
+.dc svg{display:block;width:100%;height:74px}
+.dc span{display:block;padding:7px 9px;font-weight:800;font-size:.82rem;line-height:1.2}
+.dc small{display:block;font-weight:500;color:var(--muted);font-size:.68rem}
+.dc:hover{transform:translateY(-3px)}
+.dc.on{border-color:var(--saffron);box-shadow:0 8px 22px rgba(240,168,28,.45)}
+.ticket{padding:0;gap:0;align-items:stretch}
+.tmain{flex:1;padding:30px 34px;min-width:0}
+.tstub{flex:none;width:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;border-left:2px dashed var(--saffron);padding:20px;position:relative}
+.tstub::before,.tstub::after{content:"";position:absolute;left:-12px;width:22px;height:22px;border-radius:50%;background:var(--snow)}
+.tstub::before{top:-12px}.tstub::after{bottom:-12px}
+.tk{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.tk span{font-size:.8rem;font-weight:700;padding:5px 12px;border-radius:99px;background:rgba(240,168,28,.18)}
+.pbtn{background:var(--deep);color:#fff;padding:9px 18px;border-radius:99px;font-size:.85rem}
+@media(max-width:900px){.dgrid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:600px){
+  .dgrid{grid-template-columns:repeat(2,1fr)}
+  .prog span{display:none}.prog .on span{display:inline}
+  .nav{width:100%}.nav .go{flex:1;padding:15px 10px}
+  .ticket{flex-direction:column}.tmain{padding:22px}
+  .tstub{width:auto;border-left:0;border-top:2px dashed var(--saffron);flex-direction:row;padding:16px}
+  .tstub::before,.tstub::after{top:-12px;bottom:auto}.tstub::before{left:-12px}.tstub::after{left:auto;right:-12px}
+}
+@media print{.hero,.intro,.formhead,form,.note,footer,#toast,.pbtn{display:none!important}.results .result:first-child{margin:0}}
+
+.pic{position:relative;overflow:hidden}
+.dc svg,.pic{height:96px}
+.pic img,.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .9s,transform 6s}
+.pic img.on,.ph img.on{opacity:1}
+.dc:hover .pic img{transform:scale(1.08)}
+.hp{display:grid;grid-template-columns:2fr 1fr;gap:8px;margin-top:18px}
+.ph.big{grid-row:span 2;aspect-ratio:auto;min-height:230px}
+.ph figcaption{position:absolute;z-index:2;left:0;right:0;bottom:0;padding:38px 14px 12px;color:#fff;font-family:var(--serif);font-weight:700;font-size:1.15rem;line-height:1.2;background:linear-gradient(transparent,rgba(7,29,38,.92))}
+.ph{position:relative;aspect-ratio:4/3;border-radius:6px 16px 6px 16px;overflow:hidden;background:linear-gradient(135deg,var(--lake2),var(--crocus))}
+.alts{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.alts b{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);width:100%}
+.alts span{font-weight:700;font-size:.9rem;padding:7px 14px;border-radius:12px;border:1px solid var(--line);background:var(--snow)}
+.alts i{font-style:normal;color:var(--crocus);margin-left:6px}
+.hnote{margin:8px 0 0;font-size:.74rem;color:var(--muted)}
+
+/* ===== Wadi Fare-inspired visual refresh ===== */
+:root{
+  --deep:#0b2533;--lake:#1c6b86;--lake2:#2a829b;--snow:#eef4f6;
+  --mist:#dce9ee;--ink:#12303d;--muted:#5d7783;--saffron:#e8a33d;
+  --crocus:#1c6b86;--crocus2:#124b62;--chinar:#c4452d;--line:#d6e4ea;
+  --surface:#fff;--ok:#18734d;--err:#c4452d;
+}
+[data-theme="dark"]{
+  --deep:#06131b;--lake:#164e65;--lake2:#236b83;--snow:#08151d;
+  --mist:#102a37;--ink:#e6f1f5;--muted:#8fb0bd;--line:#1f3a49;
+  --surface:#10232e;--ok:#62d6a0;--err:#ff9b82;
+}
+body{background:var(--snow);color:var(--ink)}
+.hero{
+  min-height:560px;
+  background:
+    radial-gradient(ellipse at 82% 10%,rgba(232,163,61,.28),transparent 45%),
+    linear-gradient(135deg,var(--deep),var(--lake));
+}
+.hero::before{
+  background:
+    linear-gradient(180deg,rgba(5,20,28,.15),rgba(5,20,28,.25) 42%,rgba(5,20,28,.88)),
+    radial-gradient(#fff 1px,transparent 1.5px);
+  background-size:auto,46px 46px;
+  opacity:.75;
+}
+.hero .wrap{padding:38px 20px 150px}
+.topbar{max-width:1060px}
+.brand{
+  font-family:var(--sans);font-size:.9rem;letter-spacing:.22em;
+  font-weight:800;color:#ffe0a1
+}
+.brand svg{color:var(--saffron)}
+.top-actions{display:flex;align-items:center;gap:12px}
+.theme-btn{
+  border:1px solid rgba(255,255,255,.38);border-radius:999px;
+  background:rgba(255,255,255,.10);color:#fff;padding:9px 15px;
+  font:600 .82rem var(--sans);backdrop-filter:blur(8px)
+}
+.theme-btn:hover{background:rgba(255,255,255,.2)}
+.by{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25)}
+.greet{
+  font-family:var(--sans);font-size:.78rem;letter-spacing:.19em;
+  font-weight:800;color:#ffe0a1;margin:55px 0 15px
+}
+.hero h1{
+  max-width:850px;font-family:var(--serif);
+  font-size:clamp(2.6rem,6.5vw,5rem);line-height:1.04
+}
+.hero h1 em{color:#ffe0a1}
+.sub{font-size:1rem;max-width:600px;color:#d8e8ed}
+.stats div{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.2)}
+.stats b{color:#ffe0a1}
+.cta{
+  background:var(--saffron);color:#2b2112;
+  border-radius:12px;box-shadow:0 10px 26px rgba(232,163,61,.24)
+}
+.ridge{height:110px}
+main.wrap{max-width:1020px}
+.result,fieldset,.qcard,.tile,.bar{
+  border-radius:20px;box-shadow:var(--shadow,0 12px 34px rgba(11,37,51,.10))
+}
+.result{border:1px solid var(--line);border-top:4px solid var(--saffron)}
+.result::after{opacity:.12}
+.seal{background:linear-gradient(135deg,var(--lake),var(--lake2));box-shadow:0 0 0 7px rgba(28,107,134,.14)}
+.result.error .seal{background:var(--chinar)}
+.pred{color:var(--lake)}
+.intro{padding-top:42px}
+h2.title{font-family:var(--serif);color:var(--ink)}
+p.lead{color:var(--muted)}
+.tile{border-radius:16px}
+.qcard{
+  border:1px solid var(--line);border-radius:16px;
+  background:var(--surface);box-shadow:0 8px 22px rgba(11,37,51,.07)
+}
+.qcard::before{background:linear-gradient(var(--saffron),var(--lake))}
+.qcard em{color:var(--lake)}
+fieldset{
+  border:1px solid var(--line);border-radius:18px;background:var(--surface)
+}
+.fhead{
+  background:
+    radial-gradient(circle at 20% 50%,rgba(232,163,61,.15) 0 2px,transparent 3px) 0 0/26px 26px,
+    linear-gradient(100deg,var(--deep),var(--lake) 78%)
+}
+.fhead .n{background:var(--saffron);color:#2b2112}
+.lab{color:var(--muted)}
+input[type=number],select{
+  background:var(--snow);color:var(--ink);border-color:var(--line);border-radius:11px
+}
+input[type=number]:focus,select:focus{outline:2px solid rgba(28,107,134,.2);border-color:var(--lake)}
+.opt input:checked+span{
+  background:linear-gradient(135deg,var(--lake),var(--crocus2));
+  box-shadow:0 8px 18px rgba(28,107,134,.24)
+}
+.opt span{border-radius:11px}
+.cnt{border-radius:11px;background:var(--snow)}
+.cnt button{color:var(--lake)}
+input[type=range]{accent-color:var(--lake)}
+.qb button{border-radius:9px}
+.bar{
+  border-radius:16px;background:color-mix(in srgb,var(--surface) 92%,transparent);
+  border-color:var(--line)
+}
+.go{
+  background:linear-gradient(135deg,var(--lake),var(--crocus2));
+  border-radius:11px;box-shadow:0 9px 22px rgba(28,107,134,.25)
+}
+.back{border-radius:11px}
+footer{background:var(--deep)}
+footer .sign{border-color:rgba(232,163,61,.45)}
+footer .sign strong{color:#ffe0a1}
+#toast{background:var(--deep);border-color:var(--saffron)}
+#loader{background:rgba(5,20,28,.9)}
+@media(max-width:600px){
+  .hero{min-height:570px}
+  .hero .wrap{padding-bottom:125px}
+  .top-actions .by{display:none}
+  .theme-btn{padding:8px 11px}
+  .greet{font-size:.68rem;letter-spacing:.12em}
+  .stats div{padding:9px 12px}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-bg{animation:none}
+}
+
 </style>
 </head>
 <body>
 
 <header class="hero">
-  <div class="sun"></div>
-  <div class="hero-content">
-    <div class="brand">
-      <svg viewBox="0 0 64 64" fill="#ffe0a1"><path d="M32 4l5 12 12-4-3 12 13 2-9 9 8 10-13-1 1 13-10-8-10 8 1-13-13 1 8-10-9-9 13-2-3-12 12 4z"/></svg>
-      WADI STAY
-    </div>
-    <h1>Kashmir mein <span>sahi hotel</span>,<br>apne budget mein.</h1>
-    <p class="tag">Budget, family aur season batao — hum batayenge kaunsa hotel aapke liye best rahega.</p>
+  <div class="hero-bg" id="hero-bg"></div>
+  <canvas id="snow" aria-hidden="true"></canvas>
+  <div class="topbar">
+    <div class="brand"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c4 2 7 6 6 10-1 3-4 4-4 7 0 1 .5 2 1 3-5 0-10-3-10-9 0-5 3-9 7-11z"/></svg>KASHMIR STAYS</div>
+    <div class="top-actions"><div class="by">Created by <b>Furqan Mushtaq</b></div><button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle colour theme">🌙 Dark</button></div>
   </div>
-
-  <svg class="shikara" viewBox="0 0 200 60">
-    <path d="M5 34 Q100 52 195 30 Q150 44 100 44 Q50 44 5 34z" fill="#8a3b2a"/>
-    <path d="M45 34 L60 14 L140 14 L152 33z" fill="#e8a33d"/>
-    <path d="M55 20 H145" stroke="#c4452d" stroke-width="4"/>
-    <path d="M0 50 Q50 44 100 50 T200 50" stroke="rgba(255,255,255,.5)" fill="none" stroke-width="2"/>
-  </svg>
-
-  <svg class="mount" viewBox="0 0 1440 260" preserveAspectRatio="none">
-    <path d="M0 200 L120 120 L200 170 L340 40 L470 160 L560 110 L700 190 L820 70 L960 180 L1080 100 L1220 170 L1340 90 L1440 160 V260 H0z" fill="#8fb4c4" opacity=".75"/>
-    <path d="M340 40 L300 90 L330 84 L350 100 L372 82 L395 92z" fill="#fff" opacity=".95"/>
-    <path d="M820 70 L780 118 L808 112 L830 126 L850 110 L872 120z" fill="#fff" opacity=".95"/>
-    <path d="M0 220 L150 150 L260 200 L420 120 L560 210 L700 140 L860 215 L1000 150 L1150 210 L1300 140 L1440 200 V260 H0z" fill="#2f6b4f"/>
-    <path d="M0 245 Q360 205 720 235 T1440 225 V260 H0z" fill="#1c6b86"/>
-    <g fill="#1d4a36"><path d="M60 235 l14 -52 l14 52z M200 238 l12 -44 l12 44z M1180 236 l14 -50 l14 50z M1320 238 l12 -44 l12 44z"/></g>
+  <div class="wrap">
+    <p class="greet">KHUSH AMDEED · WELCOME TO KASHMIR</p>
+    <h1>Discover your <em>perfect stay</em> in Kashmir.</h1>
+    <p class="sub">Tell us about your journey, budget and preferences. Our machine-learning model will recommend a stay that suits your trip.</p>
+    <div class="stats"><div><b>10</b><span>Kashmir districts</span></div><div><b>367</b><span>Hotels in the dataset</span></div><div><b>1 tap</b><span>Get a recommendation</span></div></div>
+    <a class="cta" href="#plan">Plan my trip</a>
+  </div>
+  <svg class="ridge" viewBox="0 0 1440 150" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 95 L120 55 L210 82 L340 20 L440 70 L560 38 L680 88 L800 30 L930 78 L1050 44 L1180 84 L1300 50 L1440 90 L1440 150 L0 150Z" fill="var(--mist)" opacity=".6"/>
+    <path d="M0 122 L150 88 L260 114 L400 72 L520 110 L660 80 L790 118 L920 76 L1060 112 L1200 84 L1330 114 L1440 94 L1440 150 L0 150Z" fill="var(--snow)"/>
   </svg>
 </header>
 
-<main>
-  <section class="card">
-    <h2>Trip details bharo</h2>
-    <p class="sub">Jitni accurate details, utni accurate recommendation.</p>
+<main class="wrap">
 
-    <form id="hotelForm" action="" method="POST">
+  <div class="results">
+    <section class="result ticket hide" id="result-ok" role="status">
+      <div class="tmain">
+        <h2>Your recommended stay</h2>
+        <div class="pred" id="pred-text">{{ prediction }}</div>
+        <p class="small">Predicted label returned by AI Model</p>
+        <div class="tk" id="tk"></div>
+        <div class="alts" id="alts-box"></div>
+        <ul class="hide" id="alts-src">{% for n, p in alts %}<li data-p="{{ p }}">{{ n }}</li>{% endfor %}</ul>
+        <div class="hp" id="hp"></div><p class="hnote" id="hnote"></p>
+      </div>
+      <div class="tstub"><div class="seal">&#10003;</div><button class="pbtn" type="button" onclick="window.print()">Print / Save</button></div>
+    </section>
+    <section class="result error hide" id="result-err" role="alert">
+      <div class="seal">!</div>
+      <div>
+        <h2>We could not make a prediction</h2>
+        <div class="pred" id="err-text">{{ error }}</div>
+        <p class="small">Check the Flask console for the full traceback and confirm the model's expected input format.</p>
+      </div>
+    </section>
+  </div>
 
-      <fieldset>
-        <legend>Trip</legend>
-        <div class="grid">
-          <div class="field">
-            <label for="district">District</label>
-            <select id="district" name="district" required>
-              <option value="Anantnag (Pahalgam)">Anantnag (Pahalgam)</option>
-              <option value="Baramulla (Gulmarg)">Baramulla (Gulmarg)</option>
-              <option value="Ganderbal (Sonamarg)">Ganderbal (Sonamarg)</option>
-              <option value="Srinagar">Srinagar</option>
-              <option value="Budgam (Doodhpathri & Yusmarg)">Budgam (Doodhpathri &amp; Yusmarg)</option>
-              <option value="Bandipora (Gurez Valley)">Bandipora (Gurez Valley)</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="travel_season">Season</label>
-            <select id="travel_season" name="travel_season" required>
-              <option value="Peak_Summer_May_Jun">Peak Summer May Jun</option>
-              <option value="Snow_Winter_Dec_Feb">Snow Winter Dec Feb</option>
-              <option value="Chinar_Autumn_Sep_Nov">Chinar Autumn Sep Nov</option>
-              <option value="Monsoon_Jul_Aug">Monsoon Jul Aug</option>
-              <option value="Tulip_Spring_Mar_Apr">Tulip Spring Mar Apr</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="trip_purpose">Trip purpose</label>
-            <select id="trip_purpose" name="trip_purpose" required>
-              <!-- TODO: replace with the exact categories from your dataset/ohe.pkl -->
-              <option value="Family_Vacation">Family Vacation</option>
-              <option value="Honeymoon">Honeymoon</option>
-              <option value="Adventure">Adventure</option>
-              <option value="Leisure">Leisure</option>
-              <option value="Business">Business</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="star_category">Star category</label>
-            <select id="star_category" name="star_category" required>
-              <!-- TODO: replace with the exact categories from your dataset/ohe.pkl -->
-              <option value="3_Star">3 Star</option>
-              <option value="4_Star">4 Star</option>
-              <option value="5_Star">5 Star</option>
-              <option value="Budget">Budget</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="stay_days">Stay (days)</label>
-            <input type="number" min="1" id="stay_days" name="stay_days" value="3" required>
-          </div>
-
-          <div class="field">
-            <label for="distance_to_sxr_airport_km">Distance to Srinagar airport (km)</label>
-            <input type="number" step="0.1" min="0" id="distance_to_sxr_airport_km" name="distance_to_sxr_airport_km" placeholder="e.g. 15" required>
-          </div>
-
-          <div class="field full">
-            <div class="switch">
-              <span>Mountain or lake view chahiye?</span>
-              <label style="display:flex">
-                <input type="checkbox" id="has_mountain_or_lake_view" name="has_mountain_or_lake_view" value="1">
-                <span class="track"></span>
-              </label>
-            </div>
-          </div>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend>Group &amp; rooms</legend>
-        <div class="grid">
-          <div class="field">
-            <label for="adults_count">Adults</label>
-            <input type="number" min="1" id="adults_count" name="adults_count" value="2" required>
-          </div>
-          <div class="field">
-            <label for="children_count">Children</label>
-            <input type="number" min="0" id="children_count" name="children_count" value="0" required>
-          </div>
-          <div class="field">
-            <label for="rooms_required">Rooms required</label>
-            <input type="number" min="1" id="rooms_required" name="rooms_required" value="1" required>
-          </div>
-
-          <!-- Auto-filled (hidden) -->
-          <input type="hidden" id="family_count" name="family_count" value="2">
-          <input type="hidden" id="user_daily_budget_inr" name="user_daily_budget_inr" value="0">
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend>Aapka budget</legend>
-        <div class="field">
-          <label for="user_budget_total_inr">Total budget (₹)</label>
-          <input type="number" min="0" id="user_budget_total_inr" name="user_budget_total_inr" placeholder="e.g. 30000" required>
-        </div>
-      </fieldset>
-
-      <button class="go" id="submitBtn" type="submit">Hotel Dhundo →</button>
-      <p class="err" id="err"></p>
-    </form>
+  <section class="intro">
+    <div class="buta"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c4 2 7 6 6 10-1 3-4 4-4 7 0 1 .5 2 1 3-5 0-10-3-10-9 0-5 3-9 7-11z"/></svg></div>
+    <h2 class="title">Find a stay that fits your Kashmir trip</h2>
+    <p class="lead">Explore stays around Dal Lake, Gulmarg, Pahalgam, Sonamarg and more — then personalise your recommendation.</p>
+    <div class="gallery">
+      <figure class="tile" data-q="Dal Lake Srinagar shikara" data-m="dal|shikara|houseboat|lake"><figcaption>Dal Lake</figcaption></figure>
+      <figure class="tile" data-q="Gulmarg snow mountains" data-m="gulmarg"><figcaption>Gulmarg</figcaption></figure>
+      <figure class="tile" data-q="Kashmiri pashmina shawl" data-m="pashmina|shawl|kani|embroider|handicraft|carpet"><figcaption>Pashmina</figcaption></figure>
+      <figure class="tile" data-q="Shalimar Bagh Srinagar" data-m="shalimar|nishat|mughal|garden|chashme"><figcaption>Mughal gardens</figcaption></figure>
+      <figure class="tile" data-q="Pahalgam Lidder valley" data-m="pahalgam|lidder|betaab|aru|valley"><figcaption>Pahalgam</figcaption></figure>
+    </div>
+    <div class="quick">
+      <button class="qcard" type="button" onclick="loadExample(0)"><b>Gulmarg ski trip</b><span>4 adults &middot; 2 nights &middot; winter snow</span><br><em>Use this sample &rarr;</em></button>
+      <button class="qcard" type="button" onclick="loadExample(1)"><b>Srinagar long stay</b><span>3 adults &middot; 9 nights &middot; nature retreat</span><br><em>Use this sample &rarr;</em></button>
+      <button class="qcard" type="button" onclick="loadExample(2)"><b>Pahalgam family trip</b><span>4 adults + 1 child &middot; 7 nights &middot; summer</span><br><em>Use this sample &rarr;</em></button>
+    </div>
+    <button class="ghost" type="button" onclick="resetForm()">Reset form</button>
   </section>
 
-  <aside class="side">
-    <section class="card result">
-      <h2>Recommendation</h2>
-      <p class="sub">Model ka suggestion yahan dikhega.</p>
+  <div class="formhead" id="plan"><div class="buta"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c4 2 7 6 6 10-1 3-4 4-4 7 0 1 .5 2 1 3-5 0-10-3-10-9 0-5 3-9 7-11z"/></svg></div><h2 class="title">Plan your stay</h2><p class="lead">Complete the four steps below to get your hotel recommendation.</p></div>
 
-      <div class="placeholder" id="placeholder">
-        <svg viewBox="0 0 64 64" fill="none" stroke="#1c6b86" stroke-width="2.5" stroke-linejoin="round">
-          <path d="M4 52 L22 22 L32 38 L42 26 L60 52z"/>
-          <path d="M22 22 l-5 8 l5 -2 l4 3"/>
-          <circle cx="48" cy="12" r="5"/>
-        </svg>
-        <span>Form bharo aur “Hotel Dhundo” dabao</span>
-      </div>
-
-      <div class="verdict" id="verdict">
-        <div class="badge">🏨 Recommended for you</div>
-        <div class="row big"><small>Hotel</small><b id="rHotel">–</b></div>
-        <div class="row"><small>Total budget</small><b id="rBudget">–</b></div>
-        <div class="row"><small>Per day</small><b id="rDaily">–</b></div>
-        <div class="row"><small>Guests / Rooms</small><b id="rGuests">–</b></div>
-      </div>
-
-      <!-- Flask fills these. Match the variable names to what your app.py passes. -->
-      <div id="server-results" hidden>
-        <span id="server-pred">{{ prediction }}</span>
-        <span id="server-error">{{ error }}</span>
-      </div>
-    </section>
-
-    <section class="tip">
-      <h3>Local tip</h3>
-      <p>Peak season (May–Jun aur Dec–Feb) mein hotel pehle se book karo. Booking se pehle room ka view aur heating/parking confirm kar lo.</p>
-      <svg viewBox="0 0 64 64" fill="#fff"><path d="M32 4l5 12 12-4-3 12 13 2-9 9 8 10-13-1 1 13-10-8-10 8 1-13-13 1 8-10-9-9 13-2-3-12 12 4z"/></svg>
-    </section>
-  </aside>
+  <form id="hotel-form" method="POST" action="">
+    <div class="prog" id="prog"></div><div id="fields"></div>
+    <div class="bar">
+      <div class="sum" id="sum">Your trip summary<small>Fill the form to see it here</small></div>
+      <div class="nav"><button class="back hide" id="back" type="button">&larr; Back</button><button class="go" id="next" type="button">Next &rarr;</button><button class="go hide" id="submit-btn" type="submit">Predict my hotel &rarr;</button></div>
+    </div>
+  </form>
+  <p class="note">The form sends every field to Flask. Flask passes them to the trained model (hotel_model.pkl), which returns the best match and two alternatives.</p>
 </main>
 
 <footer>
-  <svg viewBox="0 0 420 26" preserveAspectRatio="none">
-    <path d="M0 26 L40 8 L70 20 L120 2 L170 22 L220 6 L270 22 L320 4 L370 20 L420 10 V26z" fill="#b9d3dc"/>
-  </svg>
-  Made with ♥ for Kashmir tourism · Created by Adil Ahmad · Recommendations are estimates.
+  <b class="t">Kashmir Hotel Recommendation</b>
+  Built with Flask &amp; scikit-learn &middot; BCA Machine Learning Project<br>
+  <div class="sign"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c4 2 7 6 6 10-1 3-4 4-4 7 0 1 .5 2 1 3-5 0-10-3-10-9 0-5 3-9 7-11z"/></svg>Created by <strong>Furqan Mushtaq</strong></div>
+  <span id="credits"></span>
 </footer>
+<div id="toast" role="status"></div>
+<div id="loader" class="hide" role="status"><div><div class="spin"></div><p>Finding your perfect stay...</p></div></div>
 
 <script>
-const $ = id => document.getElementById(id);
-const inr = n => '₹' + Math.round(Number(n)).toLocaleString('en-IN');
+/* ---------- Options ---------- */
+const YN=[["1","Yes","Needed"],["0","No","Not needed"]];
+const PROPS=[["Boutique_Cottage","Boutique cottage"],["Luxury_Resort","Luxury resort"],["JKTDC_Tourist_Bungalow","JKTDC bungalow"],["Hotel","Hotel"],["Valley_Homestay","Valley homestay"],["Heritage_Houseboat","Heritage houseboat"]];
+const DIETS=[["Multi_Cuisine","Multi cuisine"],["Continental_Halal","Continental / Halal"],["Kashmiri_Wazwan","Kashmiri Wazwan"],["Pure_Veg_Jain","Pure veg / Jain"]];
+const SEASON=[["Snow_Winter_Dec_Feb","Snow winter","Dec to Feb"],["Lush_Monsoon_Jul_Aug","Lush monsoon","Jul to Aug"],["Chinar_Autumn_Sep_Nov","Chinar autumn","Sep to Nov"],["Peak_Summer_May_Jun","Peak summer","May to Jun"],["Tulip_Spring_Mar_Apr","Tulip spring","Mar to Apr"]];
+const PURPOSE=[["Winter_Ski_Adventure","Ski adventure"],["Senior_Leisure_Tour","Senior leisure"],["Family_Vacation","Family vacation"],["Offbeat_Nature_Retreat","Nature retreat"],["Alpine_Trekking","Alpine trekking"],["Honeymoon_Couple","Honeymoon"]];
+const STARS=[["5","5 star"],["4","4 star"],["3","3 star"],["2","2 star"],["1","1 star"],["0","Unrated"]];
+// Approximate road distance from Srinagar airport (SXR), auto-filled when a district is picked. You can still edit it.
+const DIST={"Baramulla (Gulmarg)":56.5,"Srinagar":24.2,"Anantnag (Pahalgam)":90,"Ganderbal (Sonamarg)":85,"Shopian (Peer Ki Gali)":80,"Kupwara (Lolab & Keran)":100,"Kulgam (Aharbal)":75,"Bandipora (Gurez Valley)":125,"Pulwama (Tral & Shikargah)":40,"Budgam (Yusmarg & Doodhpathri)":45};
+// [id, label, type, extra, default]  n=number  c=counter  s=select  r=radio chips  b=budget
+const SECTIONS=[
+ {t:"Your trip",d:"When, why and where",ic:"M3 19l6-10 4 6 3-4 5 8H3zm14-12a2 2 0 110-4 2 2 0 010 4z",f:[
+  ["travel_season","Travel season","r",{opts:SEASON,full:1,sel:"Snow_Winter_Dec_Feb"}],["trip_purpose","Trip purpose","r",{opts:PURPOSE,full:1,sel:"Winter_Ski_Adventure"}],
+  ["district","District / destination","s",{opts:Object.keys(DIST),full:1}],["stay_days","Nights of stay","c",{min:1,max:60},3]]},
+ {t:"Who is travelling",d:"Group size and rooms",ic:"M12 3l9 5v2H3V8l9-5zm-7 9h2v6H5zm6 0h2v6h-2zm6 0h2v6h-2zM3 20h18v2H3z",f:[
+  ["adults_count","Adults","c",{min:1,max:30},2],["children_count","Children","c",{min:0,max:30},0],
+  ["seniors_count","Seniors","c",{min:0,max:30},0],["rooms_required","Rooms required","c",{min:1,max:15,tag:"auto",hint:"Suggested: 1 room for every 4 guests. Change it if you like."},1]]},
+ {t:"Budget",d:"What you plan to spend",ic:"M12 2c3 4 6 6 6 10a6 6 0 01-12 0c0-2 1-3 2-5 1 2 2 2 3 2 0-3 0-5 1-7z",f:[
+  ["user_budget_total_inr","Total budget","b",{pre:"₹",min:0,two:1},60000]]},
+ {t:"Stay preferences",d:"Property, food and comfort",ic:"M3 21V9l9-6 9 6v12h-6v-6H9v6H3z",f:[
+  ["preferred_property_type","Preferred property type","r",{opts:PROPS,full:1,sel:"Boutique_Cottage"}],
+  ["star_category","Star category","r",{opts:STARS,full:1,sel:"3"}],
+  ["dietary_preference","Food preference","r",{opts:DIETS,full:1,sel:"Multi_Cuisine"}],
+  ["requires_central_heating","Central heating / bukhari needed","r",{opts:YN,sel:"1"}],
+  ["requires_scenic_view","Scenic view needed","r",{opts:YN,sel:"1"}]]}
+];
+const esc=s=>String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
+const g=id=>document.getElementById(id);
 
-// Auto-fill hidden features: family_count and daily budget
-function autoFill() {
-  const adults = Number($('adults_count').value) || 0;
-  const kids = Number($('children_count').value) || 0;
-  const days = Math.max(1, Number($('stay_days').value) || 1);
-  const total = Number($('user_budget_total_inr').value) || 0;
-  $('family_count').value = adults + kids;
-  $('user_daily_budget_inr').value = Math.round(total / days);
-}
-['adults_count','children_count','stay_days','user_budget_total_inr'].forEach(id => $(id).addEventListener('input', autoFill));
-$('hotelForm').addEventListener('submit', () => {
-  autoFill();
-  $('err').style.display = 'none';
-  $('submitBtn').disabled = true;
-  $('submitBtn').textContent = 'Dhundh rahe hain…';
-});
-autoFill();
-
-// Show Flask result after POST reload
-(function showResult() {
-  const t = id => $(id).textContent.trim();
-  const error = t('server-error');
-  const pred = t('server-pred');
-  if (error) { $('err').textContent = 'Recommendation fail hui: ' + error; $('err').style.display = 'block'; return; }
-  if (!pred || pred === 'None') return;
-
-  $('placeholder').style.display = 'none';
-  $('verdict').style.display = 'block';
-  $('rHotel').textContent = pred;
-  autoFill();
-  $('rBudget').textContent = inr($('user_budget_total_inr').value || 0);
-  $('rDaily').textContent = inr($('user_daily_budget_inr').value || 0);
-  $('rGuests').textContent = $('family_count').value + ' guests / ' + $('rooms_required').value + ' room(s)';
+(function build(){
+  const root=g("fields");
+  SECTIONS.forEach((s,k)=>{
+    const fs=document.createElement("fieldset");
+    let h='<div class="fhead"><div class="n">'+(k+1)+'</div><div><h3>'+esc(s.t)+'</h3><p>'+s.d+'</p></div><svg viewBox="0 0 24 24" fill="currentColor"><path d="'+s.ic+'"/></svg></div><div class="grid">';
+    s.f.forEach(([id,label,type,x,def])=>{
+      const cls='field'+(x.full?' full':'')+(x.two?' two':'');
+      const tag=x.tag?'<i>'+x.tag+'</i>':'';
+      const hint=x.hint?'<p class="hint">'+x.hint+'</p>':'';
+      if(type==="r"){
+        h+='<div class="'+cls+'"><span class="lab">'+label+'</span><div class="opts" role="radiogroup" aria-label="'+label+'">'+
+          x.opts.map(([v,t,sub])=>'<label class="opt"><input type="radio" name="'+id+'" value="'+esc(v)+'"'+(x.sel===v?' checked':'')+' required><span>'+t+(sub?'<small>'+sub+'</small>':'')+'</span></label>').join("")+'</div></div>';
+        return;
+      }
+      h+='<div class="'+cls+'"><label class="lab" for="'+id+'">'+label+tag+'</label>';
+      const attrs='id="'+id+'" name="'+id+'" type="number" step="any"'+(x.min!==undefined?' min="'+x.min+'"':'')+(x.max!==undefined?' max="'+x.max+'"':'')+(x.ro?' readonly':'')+' required value="'+def+'"';
+      if(type==="s") h+='<select id="'+id+'" name="'+id+'" required>'+x.opts.map(o=>'<option value="'+esc(o)+'">'+esc(o)+'</option>').join("")+'</select>';
+      else if(type==="c") h+='<div class="cnt"><button type="button" data-t="'+id+'" data-d="-1" aria-label="Decrease">&minus;</button><input '+attrs+'><button type="button" data-t="'+id+'" data-d="1" aria-label="Increase">+</button></div>';
+      else if(type==="b") h+='<div class="ctrl pre"><u>₹</u><input '+attrs+'></div><input type="range" id="budget_range" min="10000" max="500000" step="5000" value="'+def+'" aria-label="Budget slider"><div class="qb">'+[30000,60000,100000,200000,300000].map(v=>'<button type="button" data-b="'+v+'">₹'+v.toLocaleString("en-IN")+'</button>').join("")+'</div>';
+      else{const inp='<input '+attrs+'>';h+=(x.pre||x.suf)?'<div class="ctrl '+(x.pre?'pre':'suf')+'"><u>'+(x.pre||x.suf)+'</u>'+inp+'</div>':inp}
+      h+=hint+'</div>';
+    });
+    fs.innerHTML=h+'</div>';
+    root.appendChild(fs);
+  });
 })();
+
+/* ---------- Destination cards (drawn as little SVG landscapes) ---------- */
+const SC={"Baramulla (Gulmarg)":[215,1,0],"Srinagar":[195,0,1],"Anantnag (Pahalgam)":[145,0,0],"Ganderbal (Sonamarg)":[205,1,0],"Shopian (Peer Ki Gali)":[170,1,0],"Kupwara (Lolab & Keran)":[135,0,0],"Kulgam (Aharbal)":[160,0,1],"Bandipora (Gurez Valley)":[225,1,1],"Pulwama (Tral & Shikargah)":[120,0,0],"Budgam (Yusmarg & Doodhpathri)":[140,1,0]};
+function scene(k,[h,sn,w]){return '<svg viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="sg'+k+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="hsl('+h+' 65% 68%)"/><stop offset="1" stop-color="hsl('+h+' 70% 92%)"/></linearGradient></defs><rect width="160" height="100" fill="url(#sg'+k+')"/><circle cx="128" cy="22" r="9" fill="#ffe9a8" opacity=".9"/><path d="M0 70L30 30 55 60 85 20 120 62 145 38 160 55V100H0z" fill="hsl('+h+' 25% 48%)"/>'+(sn?'<path d="M85 20L74 36 81 33 86 38 92 32 97 35zM30 30L22 43 30 40 36 44z" fill="#fff"/>':'')+'<path d="M0 85L40 60 80 82 120 58 160 84V100H0z" fill="hsl('+h+' 30% 28%)"/>'+(w?'<rect y="78" width="160" height="22" fill="hsl(200 60% 38%)"/><path d="M62 86h26l-4 5H66z" fill="#2a1d12"/><path d="M70 86l4-5h8l4 5z" fill="#f0a81c"/>':'<path d="M20 92l6-20 6 20zM120 94l7-24 7 24zM136 94l5-17 5 17z" fill="hsl(150 40% 20%)"/>')+'</svg>'}
+(function districtCards(){
+  const sel=g("district"),box=document.createElement("div");box.className="dgrid";
+  Object.keys(DIST).forEach((v,k)=>{
+    const m=v.match(/^(.*?) \((.*)\)$/),title=m?m[2]:v,sub=m?m[1]:"Dal Lake";
+    const b=document.createElement("button");b.type="button";b.className="dc";b.dataset.v=v;
+    b.innerHTML='<div class="pic">'+scene(k,SC[v])+'</div><span>'+esc(title)+'<small>'+esc(sub)+'</small></span>';
+    b.onclick=()=>{sel.value=v;sel.dispatchEvent(new Event("change"))};box.appendChild(b);
+  });
+  sel.style.display="none";sel.parentNode.insertBefore(box,sel);
+})();
+function markDistrict(){document.querySelectorAll(".dc").forEach(b=>b.classList.toggle("on",b.dataset.v===g("district").value))}
+
+/* ---------- Season colour tint ---------- */
+const TINT={Snow_Winter_Dec_Feb:["#3a6fb0","#23487f"],Lush_Monsoon_Jul_Aug:["#1f8a5b","#0f5e3b"],Chinar_Autumn_Sep_Nov:["#c2411f","#8a2610"],Peak_Summer_May_Jun:["#d98a0b","#a35f00"],Tulip_Spring_Mar_Apr:["#c2447a","#8a2456"]};
+function tint(){const v=document.querySelector("input[name=travel_season]:checked");if(!v)return;const t=TINT[v.value],r=document.documentElement.style;r.setProperty("--crocus",t[0]);r.setProperty("--crocus2",t[1])}
+document.addEventListener("change",e=>{if(e.target.name==="travel_season")tint()});
+
+/* ---------- Step-by-step wizard ---------- */
+const steps=[...document.querySelectorAll("#fields fieldset")];let cur=0;
+g("prog").innerHTML=SECTIONS.map((s,i)=>'<button type="button" data-s="'+i+'"><b>'+(i+1)+'</b><span>'+esc(s.t)+'</span></button>').join("");
+function show(i,noScroll){
+  cur=i;steps.forEach((f,k)=>f.classList.toggle("hide",k!==i));
+  [...g("prog").children].forEach((b,k)=>{b.classList.toggle("on",k===i);b.classList.toggle("done",k<i)});
+  g("back").classList.toggle("hide",i===0);g("next").classList.toggle("hide",i===steps.length-1);g("submit-btn").classList.toggle("hide",i!==steps.length-1);
+  if(!noScroll)g("plan").scrollIntoView({behavior:"smooth",block:"start"});
+}
+g("next").onclick=()=>{const bad=[...steps[cur].querySelectorAll("input,select")].find(x=>!x.checkValidity());if(bad){bad.reportValidity();return}show(cur+1)};
+g("back").onclick=()=>show(cur-1);
+g("prog").onclick=e=>{const b=e.target.closest("button");if(b&&+b.dataset.s<=cur)show(+b.dataset.s)};
+show(0,true);
+
+/* ---------- Smart auto-fill ---------- */
+const fmt=n=>"₹"+Math.round(n).toLocaleString("en-IN");
+function sync(from){
+  const ad=+g("adults_count").value||0, ch=+g("children_count").value||0, sen=+g("seniors_count").value||0, tot=ad+ch+sen;
+  if(from!=="rooms"&&!g("rooms_required").dataset.touched) g("rooms_required").value=Math.max(1,Math.ceil(tot/4));
+  const days=Math.max(+g("stay_days").value||1,1), budget=+g("user_budget_total_inr").value||0;
+  if(from!=="range") g("budget_range").value=Math.min(Math.max(budget,10000),500000);
+  const d=g("district").value;
+  g("sum").innerHTML=d.split(" (")[0]+" &middot; "+days+" night"+(days>1?"s":"")+" &middot; "+tot+" guest"+(tot>1?"s":"")+"<small>"+fmt(budget/days)+" per night &middot; "+g("rooms_required").value+" room(s)</small>";
+  markDistrict();tint();
+}
+document.addEventListener("click",e=>{
+  const b=e.target.closest("button[data-t],button[data-b]");if(!b)return;
+  if(b.dataset.b){g("user_budget_total_inr").value=b.dataset.b;sync("budget");return}
+  const i=g(b.dataset.t),v=(+i.value||0)+ +b.dataset.d;
+  i.value=Math.min(Math.max(v,+i.min||0),+i.max||999);
+  if(b.dataset.t==="rooms_required")i.dataset.touched=1;
+  sync(b.dataset.t==="rooms_required"?"rooms":"");
+});
+["adults_count","children_count","seniors_count","stay_days","user_budget_total_inr"].forEach(id=>g(id).addEventListener("input",()=>sync()));
+g("rooms_required").addEventListener("input",()=>{g("rooms_required").dataset.touched=1;sync("rooms")});
+g("district").addEventListener("change",()=>{sync("district")});
+g("budget_range").addEventListener("input",e=>{g("user_budget_total_inr").value=e.target.value;sync("range")});
+sync("init");
+
+/* ---------- Sample trips ---------- */
+const examples=[
+ {travel_season:"Snow_Winter_Dec_Feb",trip_purpose:"Winter_Ski_Adventure",district:"Baramulla (Gulmarg)",stay_days:2,adults_count:4,children_count:0,rooms_required:1,user_budget_total_inr:65400,star_category:5,seniors_count:0,preferred_property_type:"Boutique_Cottage",dietary_preference:"Multi_Cuisine",requires_central_heating:1,requires_scenic_view:1},
+ {travel_season:"Snow_Winter_Dec_Feb",trip_purpose:"Offbeat_Nature_Retreat",district:"Srinagar",stay_days:9,adults_count:3,children_count:0,rooms_required:1,user_budget_total_inr:176400,star_category:3,seniors_count:0,preferred_property_type:"Valley_Homestay",dietary_preference:"Kashmiri_Wazwan",requires_central_heating:1,requires_scenic_view:0},
+ {travel_season:"Peak_Summer_May_Jun",trip_purpose:"Family_Vacation",district:"Anantnag (Pahalgam)",stay_days:7,adults_count:4,children_count:1,rooms_required:2,user_budget_total_inr:122500,star_category:4,seniors_count:0,preferred_property_type:"Hotel",dietary_preference:"Continental_Halal",requires_central_heating:0,requires_scenic_view:1}
+];
+let tt;
+function toast(m){const t=g("toast");t.textContent=m;t.classList.add("show");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("show"),2200)}
+function setVals(o){
+  for(const [k,v] of Object.entries(o)){
+    const radios=document.querySelectorAll('input[type=radio][name="'+k+'"]');
+    if(radios.length){radios.forEach(r=>r.checked=(r.value===String(v)));continue}
+    const f=g(k);if(f){f.value=String(v);f.classList.remove("flash");void f.offsetWidth;f.classList.add("flash")}
+  }
+  sync("rooms");
+}
+function loadExample(i){setVals(examples[i]);toast("Sample loaded. Review and press Predict");show(steps.length-1)}
+function resetForm(){g("hotel-form").reset();["rooms_required"].forEach(i=>delete g(i).dataset.touched);setTimeout(()=>{sync("init");sync("district")},0);show(0);toast("Form reset")}
+
+/* ---------- Submit: remember inputs, show loader ---------- */
+g("hotel-form").addEventListener("submit",()=>{
+  const o={};new FormData(g("hotel-form")).forEach((v,k)=>o[k]=v);
+  try{sessionStorage.setItem("kv_form",JSON.stringify(o))}catch(e){}
+  g("submit-btn").disabled=true;g("submit-btn").textContent="Predicting...";
+  g("loader").classList.remove("hide");
+});
+
+/* ---------- Snowfall ---------- */
+(function snow(){
+  const c=g("snow");if(!c||matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+  const x=c.getContext("2d");let w,h,f=[];
+  function size(){w=c.width=c.offsetWidth;h=c.height=c.offsetHeight;f=Array.from({length:Math.round(w/14)},()=>({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2.2+.6,s:Math.random()*.7+.25,d:Math.random()*6}))}
+  size();addEventListener("resize",size);
+  (function tick(){x.clearRect(0,0,w,h);x.fillStyle="rgba(255,255,255,.8)";
+    f.forEach(p=>{p.y+=p.s;p.d+=.01;p.x+=Math.sin(p.d)*.4;if(p.y>h){p.y=-4;p.x=Math.random()*w}x.beginPath();x.arc(p.x,p.y,p.r,0,6.283);x.fill()});
+    requestAnimationFrame(tick)})();
+})();
+
+/* ---------- Free photos from Wikimedia Commons ---------- */
+(function photos(){
+  const credits={};
+  const plain=h=>new DOMParser().parseFromString(h||"Unknown","text/html").body.textContent.trim();
+  function find(q,must,w){
+    const key="kv_"+q+(w||"");
+    try{const c=JSON.parse(sessionStorage.getItem(key));if(c&&c.url)return Promise.resolve(c)}catch(e){}
+    const api="https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch="+encodeURIComponent(q)+"&gsrnamespace=6&gsrlimit=40&prop=imageinfo&iiprop=url|size|mime|extmetadata&iiurlwidth="+(w||1400)+"&format=json&origin=*";
+    return fetch(api).then(r=>r.json()).then(d=>{
+      const ok=Object.values((d.query&&d.query.pages)||{}).filter(p=>{const i=p.imageinfo&&p.imageinfo[0];return i&&(!must||new RegExp(must,"i").test(p.title))&&i.mime==="image/jpeg"&&i.width>=1200&&i.width>i.height&&!/map|flag|logo|coat|stamp|poster|diagram|panorama/i.test(p.title)});
+      if(!ok.length)return null;
+      const i=ok[Math.floor(Math.random()*Math.min(ok.length,8))].imageinfo[0],m=i.extmetadata||{};
+      const p={url:i.thumburl||i.url,page:i.descriptionurl,artist:plain(m.Artist&&m.Artist.value),lic:plain(m.LicenseShortName&&m.LicenseShortName.value)};
+      try{sessionStorage.setItem(key,JSON.stringify(p))}catch(e){}
+      return p;
+    }).catch(()=>null);
+  }
+  function credit(n,p){credits[n]=p;g("credits").innerHTML="Photos via Wikimedia Commons: "+Object.entries(credits).map(([n,p])=>'<a target="_blank" rel="noopener" href="'+p.page+'">'+n+'</a> ('+p.artist.replace(/</g,"&lt;")+", "+p.lic+")").join("; ")}
+  function load(p,done){const im=new Image();im.onload=()=>done(im);im.src=p.url}
+  window.findPhoto=find;window.addCredit=credit;window.loadImg=load;
+  find("Dal Lake Srinagar mountains","dal|lake|srinagar").then(p=>{if(!p)return;load(p,()=>{const b=g("hero-bg");b.style.backgroundImage="url('"+p.url+"')";b.classList.add("on");credit("Dal Lake",p)})});
+  document.querySelectorAll(".tile").forEach(t=>{find(t.dataset.q,t.dataset.m).then(p=>{if(!p)return;load(p,im=>{im.alt=t.textContent.trim();t.prepend(im);requestAnimationFrame(()=>im.classList.add("on"));credit(t.textContent.trim(),p)})})});
+})();
+
+
+/* ---------- Destination photos (Wikimedia Commons, matched by title) ---------- */
+const DQ={
+"Baramulla (Gulmarg)":[["Gulmarg","gulmarg"],["Gulmarg snow","gulmarg|snow"]],
+"Srinagar":[["Srinagar Dal Lake","dal|srinagar"],["Srinagar Kashmir","srinagar"]],
+"Anantnag (Pahalgam)":[["Pahalgam","pahalgam|lidder|betaab"],["Anantnag Kashmir","anantnag|pahalgam"]],
+"Ganderbal (Sonamarg)":[["Sonamarg","sonamarg|sonmarg|thajiwas"],["Ganderbal Kashmir","ganderbal|sonamarg"]],
+"Shopian (Peer Ki Gali)":[["Peer Ki Gali","peer|shopian|mughal"],["Mughal Road Kashmir","mughal|peer|shopian"]],
+"Kupwara (Lolab & Keran)":[["Lolab valley","lolab|kupwara|keran"],["Kupwara Kashmir","kupwara|lolab|keran"]],
+"Kulgam (Aharbal)":[["Aharbal waterfall","aharbal|kulgam"],["Kulgam Kashmir","kulgam|aharbal"]],
+"Bandipora (Gurez Valley)":[["Gurez valley","gurez|bandipora|habba"],["Bandipora Wular","bandipora|wular|gurez"]],
+"Pulwama (Tral & Shikargah)":[["Tral Pulwama","tral|pulwama|shikargah"],["Pulwama Kashmir","pulwama|tral"]],
+"Budgam (Yusmarg & Doodhpathri)":[["Yusmarg","yus|yous|budgam"],["Doodhpathri","doodh|dudh|budgam"],["Dudhpathri Budgam","dudh|doodh|budgam"],["Yousmarg Kashmir meadow","yous|yus|doodh|budgam"]]};
+function chain(list,w,i){i=i||0;if(i>=list.length)return Promise.resolve(null);return findPhoto(list[i][0],list[i][1],w).then(p=>p||chain(list,w,i+1))}
+(function(){
+  document.querySelectorAll(".dc").forEach(b=>{
+    chain(DQ[b.dataset.v],600).then(p=>{if(!p)return;loadImg(p,im=>{im.alt=b.dataset.v;b.querySelector(".pic").appendChild(im);requestAnimationFrame(()=>im.classList.add("on"));addCredit(b.dataset.v.split(" (")[0],p)})});
+  });
+})();
+
+/* ---------- Hotel photos shown with the prediction ---------- */
+function hotelPhotos(name){
+  let o=null;try{o=JSON.parse(sessionStorage.getItem("kv_form"))}catch(e){}
+  const re=s=>s.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+  const base=name.replace(/\(.*?\)/g,"").trim(),w1=base.split(" ")[0];
+  const dist=o?o.district.replace(/.*\((.*)\)/,"$1"):"Kashmir",d1=dist.split(" ")[0];
+  const type=(name.match(/houseboat|homestay|resort|cottage|bungalow/i)||["hotel"])[0].toLowerCase();
+  const hp=g("hp");hp.innerHTML="";
+  const slots=[0,1,2].map(()=>{const d=document.createElement("div");d.className="ph";hp.appendChild(d);return d});
+  slots[0].classList.add("big");slots[0].innerHTML="<figcaption>"+esc(name)+"</figcaption>";
+  const key2=re(base.split(" ").slice(0,2).join(" "));
+  const tries=[[base,key2],[base+" Kashmir",key2],[dist+" "+type,re(d1)],[dist+" hotel",re(d1)],["Kashmir "+type,type+"|kashmir"]];
+  Promise.all(tries.map(([q,m])=>findPhoto(q,m,700))).then(r=>{
+    const seen=new Set(),out=[];
+    r.forEach(p=>{if(p&&!seen.has(p.url)){seen.add(p.url);out.push(p)}});
+    out.slice(0,3).forEach((p,i)=>loadImg(p,im=>{im.alt=base;slots[i].appendChild(im);requestAnimationFrame(()=>im.classList.add("on"));addCredit("Stay photo "+(i+1),p)}));
+    const exact=r[0]||r[1];g("hnote").textContent=exact?"Photo of the property from Wikimedia Commons.":(out.length?"No public photo of this exact property was found, so these show the area and similar stays (Wikimedia Commons).":"");
+  });
+}
+
+/* ---------- Scroll reveal ---------- */
+(function(){
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});
+  document.querySelectorAll(".qcard,.tile,.prog,.formhead").forEach(el=>{el.classList.add("rv");io.observe(el)});
+})();
+
+/* ---------- Confetti ---------- */
+function confetti(){
+  if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+  const c=document.createElement("canvas");c.style.cssText="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:60";document.body.appendChild(c);
+  const x=c.getContext("2d"),w=c.width=innerWidth,h=c.height=innerHeight,cols=["#f0a81c","#c2411f","#7a4bb0","#ffffff"];
+  const p=Array.from({length:90},()=>({x:Math.random()*w,y:-20-Math.random()*h*.5,r:4+Math.random()*6,v:2+Math.random()*3,s:Math.random()*6,c:cols[Math.random()*4|0]}));let t=0;
+  (function f(){x.clearRect(0,0,w,h);p.forEach(q=>{q.y+=q.v;q.s+=.05;q.x+=Math.sin(q.s);x.fillStyle=q.c;x.beginPath();x.ellipse(q.x,q.y,q.r,q.r/2,q.s,0,6.283);x.fill()});if(++t<260)requestAnimationFrame(f);else c.remove()})();
+}
+
+/* ---------- Show result or error only if Flask filled it ---------- */
+addEventListener("pageshow",e=>{if(e.persisted){g("loader").classList.add("hide");g("submit-btn").disabled=false;g("submit-btn").innerHTML="Predict my hotel &rarr;"}});
+(function showResult(){
+  const clean=s=>{s=s.trim();return s==="None"?"":s};
+  const pred=clean(g("pred-text").textContent), err=clean(g("err-text").textContent);
+  const box=err?g("result-err"):(pred?g("result-ok"):null);
+  if(!box)return;
+  box.classList.remove("hide");
+  const al=[...document.querySelectorAll("#alts-src li")];
+  if(al.length)g("alts-box").innerHTML="<b>Other good matches (match score)</b>"+al.map(x=>"<span>"+esc(x.textContent)+"<i>"+esc(x.dataset.p)+"%</i></span>").join("");
+  try{
+    const o=JSON.parse(sessionStorage.getItem("kv_form"));
+    if(o){
+      g("rooms_required").dataset.touched=1;setVals(o);
+      const d=Math.max(+o.stay_days||1,1),sn=(SEASON.find(x=>x[0]===o.travel_season)||[])[1];
+      g("tk").innerHTML=[o.district.split(" (")[0]===o.district?o.district:o.district.replace(/.*\((.*)\)/,"$1"),d+" night"+(d>1?"s":""),((+o.adults_count||0)+(+o.children_count||0)+(+o.seniors_count||0))+" guests",fmt(o.user_budget_total_inr/d)+" / night",sn].filter(Boolean).map(t=>"<span>"+esc(t)+"</span>").join("");
+    }
+  }catch(e){}
+  box.scrollIntoView({behavior:"smooth",block:"center"});
+  if(box.id==="result-ok"){confetti();hotelPhotos(pred)}
+})();
+
+/* ---------- Light / dark theme toggle (Wadi Fare style) ---------- */
+(function(){
+  const btn=document.getElementById("themeBtn");
+  if(!btn)return;
+  let saved=null;
+  try{saved=localStorage.getItem("kashmir-stays-theme")}catch(e){}
+  const initial=saved==="dark"?"dark":"light";
+  document.documentElement.setAttribute("data-theme",initial);
+  function paint(){
+    const dark=document.documentElement.getAttribute("data-theme")==="dark";
+    btn.textContent=dark?"☀️ Light":"🌙 Dark";
+    btn.setAttribute("aria-label",dark?"Switch to light theme":"Switch to dark theme");
+  }
+  btn.addEventListener("click",()=>{
+    const next=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";
+    document.documentElement.setAttribute("data-theme",next);
+    try{localStorage.setItem("kashmir-stays-theme",next)}catch(e){}
+    paint();
+  });
+  paint();
+})();
+
 </script>
 </body>
 </html>
